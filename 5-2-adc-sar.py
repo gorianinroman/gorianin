@@ -20,6 +20,19 @@ def num2dac(value):
     signal = decimal2binary(value)
     GPIO.output(dac,signal)
     return signal
+def adc():
+    value = 0
+    GPIO.output(dac, 0)
+    for i in range (0,8,1):
+        GPIO.output(dac[i], 1)
+        time.sleep(0.01)
+        compValue = GPIO.input(comp)
+        if compValue == 0 :
+            GPIO.output(dac[i], 0)
+        else: 
+            value = value + 2**(7-i)
+        volt_comp = 3.3 * value / 256
+        
 
 try:
     while True:
@@ -34,8 +47,10 @@ try:
             else: 
                 value = value + 2**(7-i)
         
-
         print ("ADC value = {:^3}".format(value))
+        
+        # print ("ADC value = {:^3}".format(value))
+       
         
 finally:
     GPIO.output(dac, GPIO.LOW)
