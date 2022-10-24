@@ -1,0 +1,118 @@
+void Merge(std::vector <unsigned int> values, int N, std::vector<unsigned int> L, int lenL, std::vector<unsigned int> R, int lenR) {
+	int i = 0;
+	int j = 0;
+	while (i < lenL || j < lenR) {
+		if (i < lenL && j < lenR) {
+			if (L[i] <= R[j]) {
+				values[i + j] = L[i];
+				i++;
+			}
+			else {
+				values[i + j] = R[j];
+				j++;
+			}
+		}
+		else if (i < lenL) {
+			values[i + j] = L[i];
+			i++;
+		}
+		else if (j < lenR) {
+			values[i + j] = R[j];
+			j++;
+		}
+	}
+}
+void Merge_sort(std::vector<unsigned int> values, int N)
+{
+	if (N > 1) {
+		int middle = N / 2;
+		int rem = N - middle;
+		std::vector<unsigned int> L(middle);
+		std::vector<unsigned int> R(rem);
+		
+		for (int i = 0; i < N; i++) {
+			if (i < middle) {
+				L[i] = values[i];
+			}
+			else {
+				R[i - middle] = values[i];
+			}
+		}
+		Merge_sort(L, middle);
+		Merge_sort(R, rem);
+		Merge(values, N, L, middle, R, rem);
+	}
+}
+
+void Comb_sort(std::vector<unsigned int> values){
+	double factor = 1.2473309; 
+	int step = values.size() - 1; 
+
+	
+	while (step >= 1)
+	{
+		for (int i = 0; i + step < values.size(); i++)
+		{
+			if (values[i] > values[i + step])
+			{
+				std::swap(values[i], values[i + step]);
+			}
+		}
+		step /= factor;
+	}
+}
+
+void Insertion_sort(std::vector<unsigned int> values, int N)
+{
+	int key = 0;
+	int i = 0;
+	for (int j = 1; j < N; j++) {
+		key = values[j];
+		i = j - 1;
+		while (i >= 0 && values[i] > key) {
+			values[i + 1] = values[i];
+			i = i - 1;
+			values[i + 1] = key;
+		}
+	}
+}
+void Selection_sort(std::vector <unsigned int> values , int N)
+{
+	int j = 0;
+	int tmp = 0;
+	for (int i = 0; i < N; i++) {
+		j = i;
+		for (int k = i; k < N; k++) {
+			if (values[j] > values[k]) {
+				j = k;
+			}
+		}
+		tmp = values[i];
+		values[i] = values[j];
+		values[j] = tmp;
+	}
+}
+
+void Bubble_sort(std::vector<unsigned int> values, int N) {
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j - 1 < N; j++) {
+			if (values[j] > values[j + 1]) {
+				values[j] += values[j + 1];
+				values[j + 1] = values[j] - values[j + 1];
+				values[j] -= values[j + 1];
+			}
+		}
+	}
+}
+
+void Shell_sort(std::vector<unsigned int> values, int N) {
+	for (int s = N / 2; s > 0; s /= 2) {
+		for (int i = s; i < N; ++i) {
+			for (int j = i - s; j >= 0 && values[j] > values[j + s]; j -= s) {
+				int temp = values[j];
+				values[j] = values[j + s];
+				values[j + s] = temp;
+			}
+		}
+	}
+}
