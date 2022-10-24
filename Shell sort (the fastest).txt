@@ -1,0 +1,11 @@
+void Shell_sort(std::vector<unsigned int> values, int N) {
+	for (int s = N / 2; s > 0; s /= 2) {
+		for (int i = s; i < N; ++i) {
+			for (int j = i - s; j >= 0 && values[j] > values[j + s]; j -= s) {
+				int temp = values[j];
+				values[j] = values[j + s];
+				values[j + s] = temp;
+			}
+		}
+	}
+}
